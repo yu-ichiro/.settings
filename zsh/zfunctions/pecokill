@@ -1,0 +1,15 @@
+#pecokill
+pids=`ps aux | awk '{ printf "%15s %6s %4s%% %4s%% %s\n", $1 , $2 , $3 ,$4 ,$11 }' | peco --query "$LBUFFER" | awk '{print $2}'`
+if [ -z "$pids" ]; then
+echo "Nothing selected"
+return 1
+fi
+echo $pids
+printf "Do you want to terminate these processes?[y/n] "
+read yn
+if [ "${yn}" = "y" ]; then
+for pid in `echo $pids`; do
+echo "kill ${pid}"
+kill -s KILL $pid
+done
+fi

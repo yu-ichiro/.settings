@@ -1,0 +1,13 @@
+setopt auto_cd
+setopt promptcr
+setopt PROMPT_SUBST
+setopt transient_rprompt
+setopt hist_ignore_dups
+setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_SPACE
+setopt share_history
+setopt correct
+setopt list_packed
+setopt no_beep
+setopt auto_pushd
+setopt complete_aliases

@@ -6,4 +6,4 @@ set ic
 set is
 set runtimepath^=$HOME/.settings/vim
 set runtimepath+=$HOME/.settings/vim/after
-
+set viminfo+=n$HOME/.settings/vim/viminfo

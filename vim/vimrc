@@ -1,0 +1,9 @@
+set number
+syntax on
+set ruler
+set hlsearch
+set ic
+set is
+set runtimepath^=$HOME/.settings/vim
+set runtimepath+=$HOME/.settings/vim/after
+

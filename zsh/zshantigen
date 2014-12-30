@@ -1,0 +1,4 @@
+loadlib ${ZDOTDIR}/antigen/antigen.zsh
+
+antigen bundle supercrabtree/k
+

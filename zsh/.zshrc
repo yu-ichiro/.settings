@@ -10,10 +10,11 @@ function loadlib() {
 }
 
 loadlib $ZDOTDIR/zshfunc		#関数
-loadlib $ZDOTDIR/zshautoload	#autoload
+loadlib $ZDOTDIR/zshautoload		#autoload
 loadlib $ZDOTDIR/zshopts		#optset
 loadlib $ZDOTDIR/zshalias		#alias
 loadlib $ZDOTDIR/zshvars		#変数
+loadlib $ZDOTDIR/zshantigen		#antigen 関連
 
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

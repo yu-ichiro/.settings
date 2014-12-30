@@ -5,3 +5,5 @@ SPROMPT='Did you mean "%r"?(You typed "%R")[(Y)es (N)o (A)bort (E)dit]'
 export HISTFILE=${ZDOTDIR}/.zsh_history
 export HISTSIZE=1000
 export SAVEHIST=100000
+export LESSKEY=${HOME}/.settings/less/less
+

@@ -1,2 +1,4 @@
 alias ls=' ls -AhG'
 alias exit=' exit'
+alias jman='env LANG=ja-jp man'
+alias eman='env LANG=C man'

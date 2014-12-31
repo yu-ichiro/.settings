@@ -40,16 +40,19 @@ function addopt() {
 }
 
 function chpwd () {
-	filelist=()
-	printf "%-20s %s/\n" "`stat -f '%4A(%Su:%Sg)' .`" "`echo $PWD | awk -F / '{ print $NF }'`"
-	printf "===================\n"
-	IFSTMP=$IFS
-	IFS=$'\n';
-	filelist=(`ls -1A`)
-	IFS=$IFSTMP
-	for item in $filelist; do
-		printf "%-20s %s\n" "`stat -f '%4A(%Su:%Sg)' \"${item}\"`" "`stat -f '%N%T' \"${item}\"`"
-	done
+	abbr=3
+	result=$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG)
+	lines=$(echo "$result" | wc -l )
+	if [ $lines -gt $(($abbr*2)) ]; then
+		echo "$result" | head -n $abbr
+		echo
+		for i in {1..$(( ($COLUMNS - 28) / 2  ))};do printf " ";done
+		printf "~~ Not Showing %4d lines ~~\n" $(($lines - $abbr))
+		echo
+		echo "$result" | tail -n $abbr
+	else
+		echo "$result"
+	fi
 }
 
 function byte2size () {

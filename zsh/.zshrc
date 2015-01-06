@@ -1,4 +1,4 @@
-fpath=($ZDOTDIR/zfunctions /usr/local/share/zsh-completions $fpath)
+fpath=($ZDOTDIR/zfunctions $fpath)
 
 function loadlib() {
         lib=${1:?"You have to specify a library file"}
@@ -17,7 +17,6 @@ loadlib $ZDOTDIR/zshvars		#変数
 loadlib $ZDOTDIR/zshantigen		#antigen 関連
 
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
 
 bindkey -v

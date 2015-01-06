@@ -2,3 +2,4 @@ autoload -U colors; colors
 autoload -Uz compinit; compinit
 autoload -U qiita
 autoload -U pecokill
+autoload -Uz zmv

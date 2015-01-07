@@ -40,18 +40,18 @@ function addopt() {
 }
 
 function chpwd () {
-	abbr=3
-	result=$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG)
-	lines=$(echo "$result" | wc -l )
+	abbr=4
+	result="$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG --color)"
+	lines=$(printf "$result" | grep -c "" )
 	if [ $lines -gt $(($abbr*2)) ]; then
-		echo "$result" | head -n $abbr
+		printf "$result" | head -n $abbr
 		echo
 		for i in {1..$(( ($COLUMNS - 28) / 2  ))};do printf " ";done
 		printf "~~ Not Showing %4d lines ~~\n" $(($lines - $abbr))
 		echo
-		echo "$result" | tail -n $abbr
+		printf "$result" | tail -n $abbr
 	else
-		echo "$result"
+		printf "$result"
 	fi
 }
 

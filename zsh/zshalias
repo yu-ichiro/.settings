@@ -1,4 +1,5 @@
-alias ls=' ls -AhG'
+alias L=' ls -AhF --color=auto'
+alias G='| grep'
 alias exit=' exit'
 alias jman='env LANG=ja-jp man'
 alias eman='env LANG=C man'

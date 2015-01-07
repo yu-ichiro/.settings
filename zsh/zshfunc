@@ -41,7 +41,7 @@ function addopt() {
 
 function chpwd () {
 	abbr=4
-	result="$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG --color)"
+	result="$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG $(ls --color&>/dev/null&&printf "--color"))"
 	lines=$(printf "$result" | grep -c "" )
 	if [ $lines -gt $(($abbr*2)) ]; then
 		printf "$result" | head -n $abbr

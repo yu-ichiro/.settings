@@ -8,11 +8,11 @@ function loadlib() {
 }
 
 loadlib $ZDOTDIR/zshfunc		#関数
+loadlib $ZDOTDIR/zshantigen		#antigen 関連
 loadlib $ZDOTDIR/zshautoload    #autoload
 loadlib $ZDOTDIR/zshopts		#optset
 loadlib $ZDOTDIR/zshalias		#alias
 loadlib $ZDOTDIR/zshvars		#変数
-loadlib $ZDOTDIR/zshantigen		#antigen 関連
 loadlib $HOME/.zshlocal         #local
 
 

@@ -53,6 +53,7 @@ function chpwd () {
 	else
 		printf "$result"
 	fi
+    [ "$result[$#result]" != $'\n' ]&& printf $'\n'
 }
 
 function byte2size () {

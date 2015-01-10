@@ -5,3 +5,4 @@ bindkey '^[[B' history-substring-search-down
 # bind vim-like control
 bindkey -v
 
+bindkey '^r' _peco-hist

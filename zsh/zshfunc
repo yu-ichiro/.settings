@@ -88,3 +88,9 @@ function agvim () {
   [ "$buffer" != "" ] && vim -c $linenum $filename
 }
  
+function _peco-hist () {
+    BUFFER=$(history -n 1 | tail -r | sort | uniq -c | sort -r | awk '{$1="";print $0}' | sed "s/^ //" | peco --query="$LBUFFER" --prompt="HISTSEARCH>")
+    CURSOR=$#BUFFER
+    zle -c -r
+} 
+zle -N _peco-hist

@@ -2,11 +2,8 @@
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-# bind vim-like control
-bindkey -v
-
 bindkey '^r' _peco-hist
 
 bindkey '^n' _dir-forward
 bindkey '^b' _dir-back
-bindkey '^B' _dir-showstack
+bindkey '^m' _dir-showstack

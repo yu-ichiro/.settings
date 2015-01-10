@@ -40,6 +40,7 @@ function addopt() {
 }
 
 function chpwd () {
+    [ "$NOSTACK" != "1" -a "$DIRSTACK[$DIRPOINT]" != "$PWD" ]&& DIRSTACK=( $(for (( i=1; i<=$DIRPOINT; ++i));do; printf "$DIRSTACK[i] ";done) "$PWD" ) && export DIRPOINT=$#DIRSTACK;
 	abbr=4
 	result="$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG $(ls --color&>/dev/null&&printf "--color"))"
 	lines=$(printf "$result" | grep -c "" )
@@ -95,3 +96,32 @@ function _peco-hist () {
     zle -c -r
 } 
 zle -N _peco-hist
+
+function _dir-back () {
+    if [ $DIRPOINT -gt 1 ]; then
+        DIRPOINT=$(( DIRPOINT - 1 ))
+        NOSTACK=1 cd $DIRSTACK[$DIRPOINT]
+    else
+        echo "Can not go further"
+    fi
+}
+zle -N _dir-back
+
+function _dir-forward () {
+    if [ $DIRPOINT -lt $#DIRSTACK ]; then
+        DIRPOINT=$(( DIRPOINT + 1 ))
+        NOSTACK=1 cd $DIRSTACK[$DIRPOINT]
+    else
+        echo "Can not go further"
+    fi
+}
+zle -N _dir-forward
+
+function _dir-showstack () {
+    tmppoint=$(for (( i=1; i <= $#DIRSTACK; ++i ));do echo "$i ${DIRSTACK[$i]}"; done | peco --query="$LBUFFER" --prompt="DIRSTACK>" --initial-index=$((DIRPOINT-1)) | awk '{print $1}')
+    if [ "$tmppoint" != "" ]; then
+        DIRPOINT=$tmppoint 
+        NOSTACK=1 cd $DIRSTACK[$DIRPOINT]
+    fi
+}
+zle -N _dir-showstack

@@ -97,11 +97,11 @@ function agvim () {
  
 function _peco-hist () {
     if which tac >/dev/null 2>&1;then
-        rev=tac
+        rev="tac"
     else
         rev="tail -r"
     fi
-    BUFFER=$(history -n 1 | $rev | peco --query="$LBUFFER" --prompt="HISTSEARCH>")
+    BUFFER=$(history -n 1 | eval $rev | peco --query="$LBUFFER" --prompt="HISTSEARCH>")
     CURSOR=$#BUFFER
     zle -c -r
 } 

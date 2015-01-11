@@ -1,9 +1,11 @@
+bindkey -d
+
 # bind UP and DOWN arrow keys
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 bindkey '^r' _peco-hist
 
-bindkey '^n' _dir-forward
-bindkey '^b' _dir-back
-bindkey '^m' _dir-showstack
+bindkey '^[]' _dir-forward
+bindkey '^[[' _dir-back
+bindkey '^_' _dir-showstack

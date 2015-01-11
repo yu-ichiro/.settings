@@ -7,15 +7,18 @@ function loadlib() {
         fi
 }
 
+loadlib $ZDOTDIR/zshvars		#変数
 loadlib $ZDOTDIR/zshfunc		#関数
 loadlib $ZDOTDIR/zshantigen		#antigen 関連
 loadlib $ZDOTDIR/zshautoload    #autoload
 loadlib $ZDOTDIR/zshopts		#optset
 loadlib $ZDOTDIR/zshalias		#alias
-loadlib $ZDOTDIR/zshvars		#変数
 loadlib $ZDOTDIR/zshbindkeys	#bindkey
 loadlib $HOME/.zshlocal         #local
 
+PROMPT="[%n@%m] "
+RPROMPT='$(gitstat)[%~]'
+SPROMPT='Did you mean "%r"?(You typed "%R")[(Y)es (N)o (A)bort (E)dit]'
 
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
 

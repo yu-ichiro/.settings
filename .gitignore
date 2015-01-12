@@ -5,3 +5,6 @@
 viminfo
 lesshst
 less
+vim/bundle/
+!neobundle.vim
+!vim-pathogen

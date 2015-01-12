@@ -25,7 +25,7 @@ call neobundle#begin(expand('~/.settings/vim/bundle/'))
  " My Bundles here:
  " Refer to |:NeoBundle-examples|.
  " Note: You don't set neobundle setting in .gvimrc!
- NeoBundle 'git://github.com/altercation/vim-colors-solarized'
+ NeoBundle 'git://github.com/altercation/vim-colors-solarized.git'
 
 call neobundle#end()
 

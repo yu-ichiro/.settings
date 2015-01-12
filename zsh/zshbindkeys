@@ -8,4 +8,4 @@ bindkey '^r' _peco-hist
 
 bindkey '^[]' _dir-forward
 bindkey '^[[' _dir-back
-bindkey '^_' _dir-showstack
+bindkey '^[_' _dir-showstack

@@ -11,5 +11,4 @@ setopt share_history
 setopt correct
 setopt list_packed
 setopt no_beep
-setopt auto_pushd
 setopt complete_aliases

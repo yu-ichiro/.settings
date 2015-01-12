@@ -1,8 +1,4 @@
 {
     "Keymap": {
-        "^[[A,^[OA":"peco.SelectPrevious",
-        "^[[B,^[OB":"peco.SelectNext",
-        "^[[C,^[OC":"peco.SelectNextPage",
-        "^[[D,^[OD":"peco.SelectPreviousPage"
     }
 }

@@ -101,7 +101,8 @@ function _peco-hist () {
     else
         rev="tail -r"
     fi
-    BUFFER=$(history -n 1 | eval $rev | peco --query="$LBUFFER" --prompt="HISTSEARCH>")
+    tmpbuf=$(history -n 1 | eval $rev | peco --query="$LBUFFER" --prompt="HISTSEARCH>")
+    BUFFER=${tmpbuf:-$BUFFER}
     CURSOR=$#BUFFER
     zle -c -r
 } 

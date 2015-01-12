@@ -12,7 +12,6 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 syntax enable
 set background=dark
-let g:solarized_termcolors=256
 colorscheme solarized
 
 set expandtab "タブ入力を複数の空白入力に置き換える

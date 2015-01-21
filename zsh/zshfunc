@@ -139,3 +139,160 @@ function _dir-showstack () {
     fi
 }
 zle -N _dir-showstack
+
+
+function pwdtree () {
+pwdpath=($(echo $PWD | tr '/' ' '))
+filepath="/"
+disp="/"
+basecl=235
+gitcl=52
+curcl=5
+basetc=247
+prc=""
+rtc="\e[48;5;${basecl};38;5;${basetc}m"
+for file in ${pwdpath[@]}; do
+    bgc=${basecl}
+    tc=${basetc}
+    [ -e "$filepath$file/.git" ]&& gitf=true && bgc=${gitcl}|| gitf=""
+    [ "$file" = "${pwdpath[$#pwdpath]}" ]&& end=true && bgc=${curcl} && tc=7 || end=""
+    name=$file
+    [ "$gitf" != "" ]&&name=$(printf "%s \ue0a0" $name)||name="$name "
+    if [ "${prc}" != "" ];then
+        if [ "${bgc}" = "${prc}" ];then
+            disp="$disp\ue0b1"
+        else
+            disp="$disp\e[48;5;${bgc};38;5;${prc}m\ue0b0"
+        fi
+    fi
+    disp="$disp\e[48;5;${bgc};38;5;${tc}m$name"
+    prc=$bgc
+    filepath="$filepath$file/"
+done
+disp="$disp\e[48;5;8;38;5;${prc:-$curcl}m\ue0b0"
+[ $#pwdpath -lt 2 ] &&rtc="\e[48;5;${curcl};38;5;7m"
+disp="$rtc$disp"
+printf $disp
+}
+
+function pwdarray () {
+    local pwdarray curpath itr ATTR
+    [ "$1" = "-a" ]&&ATTR=true||ATTR=false
+    pwdarray=( $(echo -n $PWD | tr ' ' ':' | tr '/' ' ') )
+    pwdarray[1]=/$pwdarray[1]
+    for dir in $pwdarray; do
+        itr=$((itr+1))
+        pwdarray[$itr]=$(printf "$dir"|tr ':' ' ')
+        curpath=$curpath$dir/
+        $ATTR&&[ -e "${curpath}.git" ]&&pwdarray[$itr]="$pwdarray[$itr]:g:$SOLARIZED[green]"
+    done
+    $ATTR&&pwdarray[$#pwdarray]="$pwdarray[$#pwdarray]:$SOLARIZED[blue]"
+    for dir in $pwdarray; do
+        printf "\"$dir\" "
+    done
+}
+
+function powliner () {
+    local bgc prc disp data attrs item attr git_flag esc_flag
+    [ "$1" = "-e" ]&&esc_flag=true&&shift||esc_flag=false
+    data=( $@ )
+    if $POWERLINE;then
+        for item in $data;do
+            bgc=$SOLARIZED[base01]
+            dirname=$(echo -n "$item" | sed -e "s/\"//g" | sed -e "s/:.*//")
+            attrs=( $(echo -n "$item" | tr ":" ' ' | tr "\"" ' ' ))
+            attrs=( $attrs[2,-1] )
+            for attr in $attrs;do
+                [ "$attr" = "g" ]&&dirname="$dirname \ue0a0"
+                [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc=$(echo $attr|grep -o -E '^[0-9]+$')
+            done
+            if [ "$prc" != "" ];then
+                if $esc_flag;then
+                    [ "$prc" = "$bgc" ]&&disp="$disp\ue0b1"||disp="$disp%{\e[48;5;${bgc};38;5;${prc}m%}\ue0b0"
+                else
+                    [ "$prc" = "$bgc" ]&&disp="$disp\ue0b1"||disp="$disp\e[48;5;${bgc};38;5;${prc}m\ue0b0"
+                fi
+            fi 
+            if $esc_flag; then
+                disp="$disp%{\e[48;5;$bgc;38;5;$SOLARIZED[base3]m%}$dirname "
+            else
+                disp="$disp\e[48;5;$bgc;38;5;$SOLARIZED[base3]m$dirname "
+            fi
+            prc=$bgc
+        done
+        if $esc_flag; then
+            disp="$disp%{\e[38;5;${prc};48;5;$SOLARIZED[base03]m%}\ue0b0"
+            disp="$disp%{\e[m%}"
+        else
+            disp="$disp\e[38;5;${prc};48;5;$SOLARIZED[base03]m\ue0b0"
+            disp="$disp\e[m"
+        fi
+        echo -n $disp
+    else
+        for item in $data;do
+            dirname=$(echo -n "$item" | sed -e "s/\"//g" | sed -e "s/:.*//")
+            attrs=( $(echo -n "$item" | tr ":" ' ' | tr "\"" ' ' ))
+            attrs=( $attrs[2,-1] )
+            for attr in $attrs;do
+                [ "$attr" = "g" ]&&dirname="$dirname<g>"
+                [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '^[0-9]+$')m"
+            done
+            if $esc_flag; then
+                disp="$disp$bgc$dirname%{\e[m )%}"
+            else
+                disp="$disp$bgc$dirname\e[m )"
+            fi
+        done
+        echo -n $disp
+    fi
+}
+
+function powlinel () {
+    local bgc prc disp data attrs item attr git_flag esc_flag
+    [ "$1" = "-e" ]&&esc_flag=true&&shift||esc_flag=false
+    data=( $@ )
+    if $POWERLINE;then
+        prc=$SOLARIZED[base03]
+        for item in $data;do
+            bgc=$SOLARIZED[base01]
+            dirname=$(echo -n "$item" | sed -e "s/\"//g" | sed -e "s/:.*//")
+            attrs=( $(echo -n "$item" | tr ":" ' ' | tr "\"" ' ' ))
+            attrs=( $attrs[2,-1] )
+            for attr in $attrs;do
+                [ "$attr" = "g" ]&&dirname="$dirname \ue0a0"
+                [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc=$(echo $attr|grep -o -E '^[0-9]+$')
+            done
+            if [ "$prc" != "" ];then
+                if $esc_flag; then
+                    [ "$prc" = "$bgc" ]&&disp="$disp\ue0b3"||disp="$disp%{\e[38;5;${bgc};48;5;${prc}m%}\ue0b2"
+                else
+                    [ "$prc" = "$bgc" ]&&disp="$disp\ue0b3"||disp="$disp\e[38;5;${bgc};48;5;${prc}m\ue0b2"
+                fi
+            fi 
+            if $esc_flag; then
+                disp="$disp%{\e[48;5;$bgc;38;5;$SOLARIZED[base3]m%}$dirname "
+            else
+                disp="$disp\e[48;5;$bgc;38;5;$SOLARIZED[base3]m$dirname "
+            fi
+            prc=$bgc
+        done
+        echo -n $disp
+    else
+        for item in $data;do
+            dirname=$(echo -n "$item" | sed -e "s/\"//g" | sed -e "s/:.*//")
+            attrs=( $(printf "$item" | tr ":" ' ' | tr "\"" ' ' ))
+            attrs=( $attrs[2,-1] )
+            for attr in $attrs;do
+                [ "$attr" = "g" ]&&dirname="$dirname<g>"
+                [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '^[0-9]+$')m"
+            done
+            if $esc_flag; then
+                disp="$disp ($bgc$dirname%{\e[m%}"
+            else
+                disp="$disp ($bgc$dirname\e[m"
+            fi
+        done
+        echo -n $disp
+    fi
+}
+

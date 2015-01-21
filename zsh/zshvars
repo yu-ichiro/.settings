@@ -4,3 +4,23 @@ export SAVEHIST=10000
 export LESSKEY=${HOME}/.settings/less/less
 DIRSTACK=( "$HOME" );export DIRSTACK
 export DIRPOINT=1
+[ "$TERM" = "xterm-256color" ]&&POWERLINE=true||POWERLINE=false
+typeset -A -g SOLARIZED
+SOLARIZED=(
+base03  8
+base02  0
+base01  10
+base00  11
+base0   12
+base1   14
+base2   7
+base3   15
+yellow  3
+orange  9
+red     1
+magenta 5
+violet  13
+blue    4
+cyan    6
+green   2
+)

@@ -12,8 +12,6 @@ function gitstat {
 		fi
 		
 		gitdir=`git rev-parse --git-dir 2> /dev/null`
-#		action=`VCS_INFO_git_getaction "$gitdir"` && action="($action)"
-		
 		
 		st=`git status 2> /dev/null`
 		if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
@@ -25,7 +23,7 @@ function gitstat {
         else
                 color=${fg[red]}
         fi
-		echo "[%{$color%}$name$action%{$reset_color%}]"
+		echo -n "[%{$color%}$name$action%{$reset_color%}]"
 }
 
 function zman() {
@@ -140,41 +138,6 @@ function _dir-showstack () {
 }
 zle -N _dir-showstack
 
-
-function pwdtree () {
-pwdpath=($(echo $PWD | tr '/' ' '))
-filepath="/"
-disp="/"
-basecl=235
-gitcl=52
-curcl=5
-basetc=247
-prc=""
-rtc="\e[48;5;${basecl};38;5;${basetc}m"
-for file in ${pwdpath[@]}; do
-    bgc=${basecl}
-    tc=${basetc}
-    [ -e "$filepath$file/.git" ]&& gitf=true && bgc=${gitcl}|| gitf=""
-    [ "$file" = "${pwdpath[$#pwdpath]}" ]&& end=true && bgc=${curcl} && tc=7 || end=""
-    name=$file
-    [ "$gitf" != "" ]&&name=$(printf "%s \ue0a0" $name)||name="$name "
-    if [ "${prc}" != "" ];then
-        if [ "${bgc}" = "${prc}" ];then
-            disp="$disp\ue0b1"
-        else
-            disp="$disp\e[48;5;${bgc};38;5;${prc}m\ue0b0"
-        fi
-    fi
-    disp="$disp\e[48;5;${bgc};38;5;${tc}m$name"
-    prc=$bgc
-    filepath="$filepath$file/"
-done
-disp="$disp\e[48;5;8;38;5;${prc:-$curcl}m\ue0b0"
-[ $#pwdpath -lt 2 ] &&rtc="\e[48;5;${curcl};38;5;7m"
-disp="$rtc$disp"
-printf $disp
-}
-
 function pwdarray () {
     local pwdarray curpath itr ATTR
     [ "$1" = "-a" ]&&ATTR=true||ATTR=false
@@ -235,10 +198,14 @@ function powliner () {
             attrs=( $attrs[2,-1] )
             for attr in $attrs;do
                 [ "$attr" = "g" ]&&dirname="$dirname<g>"
-                [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '^[0-9]+$')m"
+                if $esc_flag;then
+                    [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="%{\e[3$(echo $attr|grep -o -E '^[0-9]+$')m%}"
+                else
+                    [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '^[0-9]+$')m"
+                fi
             done
             if $esc_flag; then
-                disp="$disp$bgc$dirname%{\e[m )%}"
+                disp="$disp$bgc$dirname%{\e[m%} )"
             else
                 disp="$disp$bgc$dirname\e[m )"
             fi
@@ -284,7 +251,11 @@ function powlinel () {
             attrs=( $attrs[2,-1] )
             for attr in $attrs;do
                 [ "$attr" = "g" ]&&dirname="$dirname<g>"
-                [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '^[0-9]+$')m"
+                if $esc_flag;then
+                    [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="%{\e[3$(echo $attr|grep -o -E '^[0-9]+$')m%}"
+                else
+                    [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '^[0-9]+$')m"
+                fi
             done
             if $esc_flag; then
                 disp="$disp ($bgc$dirname%{\e[m%}"

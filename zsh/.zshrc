@@ -15,12 +15,13 @@ loadlib $ZDOTDIR/zshopts		#optset
 loadlib $ZDOTDIR/zshalias		#alias
 loadlib $ZDOTDIR/zshbindkeys	#bindkey
 loadlib $HOME/.zshlocal         #local
+
 local sshchk=""
 [ "$SSH_CONNECTION$REMOTEHOST" != "" ]&&sshchk='%m:6'
 local usercl=3
 local umark="$"
 [ "$UID" = "0" ]&&usercl=1&&umark="#"
-prom1=$'%{$(powliner -e $sshchk $(pwdarray -a))\n%}'
+prom1=$'%{\n$(powliner -e $sshchk $(pwdarray -a))\n%}'
 prom2=$'$(powliner -e "%n $umark:$usercl")'
 PROMPT="$prom1$prom2"
 RPROMPT='$(gitstat)'

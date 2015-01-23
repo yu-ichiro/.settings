@@ -129,7 +129,7 @@ function _dir-forward () {
 zle -N _dir-forward
 
 function _dir-showstack () {
-    tmppoint=$(for (( i=1; i <= $#DIRSTACK; ++i ));do echo "$i ${DIRSTACK[$i]}"; done | peco --query="$LBUFFER" --prompt="DIRSTACK>" --initial-index=$((DIRPOINT-1)) | awk '{print $1}')
+    tmppoint=$(for (( i=1; i <= $#DIRSTACK; ++i ));do echo "$i ${DIRSTACK[$i]}"; done | peco --prompt="DIRSTACK>" --initial-index=$((DIRPOINT-1)) | awk '{print $1}')
     if [ "$tmppoint" != "" -a "$tmppoint" != $DIRPOINT ]; then
         DIRPOINT=$tmppoint 
         NOSTACK=1 cd $DIRSTACK[$DIRPOINT]

@@ -3,7 +3,7 @@ function gitstat {
 		local name st color action gitdir
 	
 		if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
-                return
+            return
         fi
         
         name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
@@ -14,14 +14,14 @@ function gitstat {
 		gitdir=`git rev-parse --git-dir 2> /dev/null`
 		
 		st=`git status 2> /dev/null`
-		if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-                color=${fg[green]}
+        if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+            color=${fg[green]}
         elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
-                color=${fg[yellow]}
+            color=${fg[yellow]}
         elif [[ -n `echo "$st" | grep "^Untracked"` ]]; then
-                color=${fg[blue]}
+            color=${fg[blue]}
         else
-                color=${fg[red]}
+            color=${fg[red]}
         fi
 		echo -n "[%{$color%}$name$action%{$reset_color%}]"
 }

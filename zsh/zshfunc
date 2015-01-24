@@ -1,29 +1,26 @@
 #functions read into .zshrc
 function gitstat {
-		local name st color action gitdir
-	
-		if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
-            return
-        fi
-        
-        name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
-		if [[ -z $name ]]; then
-			return
-		fi
-		
-		gitdir=`git rev-parse --git-dir 2> /dev/null`
-		
-		st=`git status 2> /dev/null`
-        if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-            color=${fg[green]}
-        elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
-            color=${fg[yellow]}
-        elif [[ -n `echo "$st" | grep "^Untracked"` ]]; then
-            color=${fg[blue]}
-        else
-            color=${fg[red]}
-        fi
-		echo -n "[%{$color%}$name$action%{$reset_color%}]"
+    local name st color action gitdir
+
+    if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
+        return
+    fi
+    name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
+    if [[ -z $name ]]; then
+        return
+    fi
+    gitdir=`git rev-parse --git-dir 2> /dev/null`
+    st=`git status 2> /dev/null`
+    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+        color=${fg[green]}
+    elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
+        color=${fg[yellow]}
+    elif [[ -n `echo "$st" | grep "^Untracked"` ]]; then
+        color=${fg[blue]}
+    else
+        color=${fg[red]}
+    fi
+    echo -n "[%{$color%}$name$action%{$reset_color%}]"
 }
 
 function zman() {
@@ -31,10 +28,10 @@ function zman() {
 }
 
 function addopt() {
-	opt=${@:?"Specify the opt"}
-	if [ -f $ZDOTDIR/zshopts ];then
-		echo "${opt}" >> $ZDOTDIR/zshopts
-	fi
+    opt=${@:?"Specify the opt"}
+    if [ -f $ZDOTDIR/zshopts ];then
+        echo "${opt}" >> $ZDOTDIR/zshopts
+    fi
 }
 
 function chpwd () {
@@ -44,55 +41,55 @@ function chpwd () {
     else
         return 0;
     fi
-	abbr=4
-	result="$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG $(ls --color&>/dev/null&&printf "--color"))"
-	lines=$(printf "$result" | grep -c "" )
-	if [ $lines -gt $(($abbr*2)) ]; then
-		printf "$result" | head -n $abbr
-		echo
-		for i in {1..$(( ($COLUMNS - 28) / 2  ))};do printf " ";done
-		printf "~~ Not Showing %4d lines ~~\n" $(($lines - $abbr))
-		echo
-		printf "$result" | tail -n $abbr
-	else
-		printf "$result"
-	fi
+    abbr=4
+    result="$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG $(ls --color&>/dev/null&&printf "--color"))"
+    lines=$(printf "$result" | grep -c "" )
+    if [ $lines -gt $(($abbr*2)) ]; then
+        printf "$result" | head -n $abbr
+        echo
+        for i in {1..$(( ($COLUMNS - 28) / 2  ))};do printf " ";done
+        printf "~~ Not Showing %4d lines ~~\n" $(($lines - $abbr))
+        echo
+        printf "$result" | tail -n $abbr
+    else
+        printf "$result"
+    fi
     [ "$result[$#result]" != $'\n' ]&& printf $'\n'
 }
 
 function byte2size () {
-	byte=$1
-	fsize=""
-	suffix=""
-	if [ $byte -ge $((1024**4)) ]; then
-		fsize=`echo "scale=1;${byte}/$((1024**4))"|bc`
-		suffix="TB"
-	elif [ $byte -ge $((1024**3)) ]; then
-		fsize=`echo "scale=1;${byte}/$((1024**3))"|bc`
-		suffix="GB"	
-	elif [ $byte -ge $((1024**2)) ]; then
-		fsize=`echo "scale=1;${byte}/$((1024**2))"|bc`
-		suffix="MB"
-	elif [ $byte -ge 1024 ]; then
-		fsize=`echo "scale=1;${byte}/1024"|bc`
-		suffix="KB"	
-	else
-		fsize=$byte
-		suffix="B"
-	fi
-	echo $fsize$suffix
+    byte=$1
+    fsize=""
+    suffix=""
+    if [ $byte -ge $((1024**4)) ]; then
+        fsize=`echo "scale=1;${byte}/$((1024**4))"|bc`
+        suffix="TB"
+    elif [ $byte -ge $((1024**3)) ]; then
+        fsize=`echo "scale=1;${byte}/$((1024**3))"|bc`
+        suffix="GB"	
+    elif [ $byte -ge $((1024**2)) ]; then
+        fsize=`echo "scale=1;${byte}/$((1024**2))"|bc`
+        suffix="MB"
+    elif [ $byte -ge 1024 ]; then
+        fsize=`echo "scale=1;${byte}/1024"|bc`
+        suffix="KB"	
+    else
+        fsize=$byte
+        suffix="B"
+    fi
+    echo $fsize$suffix
 }
 
 function agvim () {
-  IFSTMP=$IFS
-  IFS=$'\n'
-  buffer=($(ag ${@} | peco --query "$LBUFFER"))
-  IFS=$IFSTMP
-  filename=$(echo $buffer | awk -F : '{print $1}')
-  linenum=$(echo $buffer | awk -F : '{print $2}')
-  [ "$buffer" != "" ] && vim -c $linenum $filename
+    IFSTMP=$IFS
+    IFS=$'\n'
+    buffer=($(ag ${@} | peco --query "$LBUFFER"))
+    IFS=$IFSTMP
+    filename=$(echo $buffer | awk -F : '{print $1}')
+    linenum=$(echo $buffer | awk -F : '{print $2}')
+    [ "$buffer" != "" ] && vim -c $linenum $filename
 }
- 
+
 function _peco-hist () {
     if which tac >/dev/null 2>&1;then
         rev="tac"
@@ -103,7 +100,7 @@ function _peco-hist () {
     BUFFER=${tmpbuf:-$BUFFER}
     CURSOR=$#BUFFER
     zle -c -r
-} 
+}
 zle -N _peco-hist
 
 function _dir-back () {

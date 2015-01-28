@@ -41,20 +41,19 @@ function chpwd () {
     else
         return 0;
     fi
-    abbr=4
-    result="$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG $(ls --color&>/dev/null&&printf "--color"))"
-    lines=$(printf "$result" | grep -c "" )
-    if [ $lines -gt $(($abbr*2)) ]; then
-        printf "$result" | head -n $abbr
+    local abbr=4
+    cmd='CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command ls -ACFG $(ls --color&>/dev/null&&printf "--color")'
+    lines=$( eval $cmd | grep -c "" )
+    if [ ${lines:-0} -gt $(($abbr*2)) ]; then
+        eval $cmd | head -n $abbr
         echo
         for i in {1..$(( ($COLUMNS - 28) / 2  ))};do printf " ";done
-        printf "~~ Not Showing %4d lines ~~\n" $(($lines - $abbr))
+        printf "~~ Not Showing %4d lines ~~\n" $(($lines - $abbr*2))
         echo
-        printf "$result" | tail -n $abbr
+        eval $cmd | tail -n $abbr
     else
-        printf "$result"
+        eval $cmd
     fi
-    [ "$result[$#result]" != $'\n' ]&& printf $'\n'
 }
 
 function byte2size () {

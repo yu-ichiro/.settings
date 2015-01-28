@@ -17,7 +17,7 @@ loadlib $ZDOTDIR/zshbindkeys	#bindkey
 loadlib $HOME/.zshlocal         #local
 
 local sshchk=""
-[ "$SSH_CONNECTION$REMOTEHOST" != "" ]&&sshchk='%m:6'
+[ "$SSH_CONNECTION$REMOTEHOST" != "" ]&&sshchk='%M:6'
 local usercl=3
 local umark="$"
 [ "$UID" = "0" ]&&usercl=1&&umark="#"

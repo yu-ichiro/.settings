@@ -1,5 +1,5 @@
 # /bin/zsh
-"Getting the remote working environment.."
+echo "Getting the remote working environment.."
 NOSTACK=1 cd $HOME
 [ ! -e "$HOME/.settings" ]&&        echo    "Cloning .settings..." && git clone git@github.com:yu-ichiro/.settings && echo "Done."
 

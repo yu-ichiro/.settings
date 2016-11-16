@@ -266,7 +266,7 @@ function powlinel () {
 function trashEmptyDirectory () {
     OLDIFS=$IFS
     IFS=$'\n'
-    folders=("$(find $PWD -maxdepth 1 -type d)")
+    folders=( $(find $PWD -maxdepth 1 -type d) )
     for folder in $folders; do
         [ -z "$(ls -A ${folder})" ]&& rmdir "${folder}"
     done

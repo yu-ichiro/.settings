@@ -30,6 +30,7 @@ call neobundle#begin(expand('~/.settings/vim/bundle/'))
  NeoBundle 'alpaca-tc/alpaca_powertabline'
  NeoBundle 'https://github.com/Lokaltog/powerline.git'
  NeoBundle 'nathanaelkane/vim-indent-guides'
+ NeoBundle 'apple-swift', {'type': 'nosync', 'base': '~/.vim/bundle/swift-highlight'}
 call neobundle#end()
 
 

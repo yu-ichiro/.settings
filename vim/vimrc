@@ -76,6 +76,6 @@ function FigletVim()
     execute 'normal "ap'
     let @a = tmp
 endfunction
-nnoremap <S-@> :call FigletVim()<CR>
-inoremap <S-@> <ESC>:call FigletVim()<CR>i
+nnoremap <C-_> :call FigletVim()<CR>
+inoremap <C-_> <ESC>:call FigletVim()<CR>i
 

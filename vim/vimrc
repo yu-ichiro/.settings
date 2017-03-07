@@ -1,9 +1,3 @@
-set cursorline
-set number
-set ruler
-set hlsearch
-set ic
-set is
 set runtimepath^=$HOME/.settings/vim
 set runtimepath+=$HOME/.settings/vim/after
 set viminfo+=n$HOME/.settings/vim/viminfo
@@ -13,10 +7,11 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
 set nocompatible
-filetype off
+filetype plugin indent off
 
-"NeoBundles
-
+"
+" NeoBundle
+"
 call neobundle#begin(expand('~/.settings/vim/bundle/'))
 
  " Let NeoBundle manage NeoBundle
@@ -33,38 +28,60 @@ call neobundle#begin(expand('~/.settings/vim/bundle/'))
  NeoBundle 'apple-swift', {'type': 'nosync', 'base': '~/.settings/vim/bundle/swift-highlight'}
 call neobundle#end()
 
-
-"NeoBundles end
-
-filetype plugin on
-filetype indent on
-
-syntax enable
+"
+" Solarized
+" 
 set background=dark
 colorscheme solarized
 
-set expandtab "タブ入力を複数の空白入力に置き換える
-set tabstop=4 "画面上でタブ文字が占める幅
-set shiftwidth=4 "自動インデントでずれる幅
-set softtabstop=4 "連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
-set autoindent "改行時に前の行のインデントを継続する
-set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
-set showcmd "入力中のコマンドを表示
-set backspace=indent,eol,start
-
-set laststatus=2
-set rtp+=~/.settings/vim/bundle/powerline/powerline/bindings/vim
+"
+" Powerline
+"
+set showtabline=2 "タブページを常に表示
+set laststatus=2 "ステータスバーを表示
+set runtimepath+=~/.settings/vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
 set noshowmode
 
+"
+" Indent Guides
+"
 let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=black
-set ts=4 sw=4 et
-let g:indent_guides_start_level=2
+let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
 let g:indent_guides_enable_on_vim_startup=1
 
+"
+" Option
+"
+syntax enable "シンタックスハイライト
+set autoindent "改行時に前の行のインデントを継続する
+set backspace=indent,eol,start "削除できない文字を削除できるように
+set clipboard=unnamed,autoselect "OSのクリップボードと同期
+set cursorline "入力行を強調表示
+set encoding=UTF-8 "エンコードをUTF-8に
+set expandtab "タブ入力を複数の空白入力に置き換える
+set fileencoding=UTF-8 "ファイルのエンコードをUTF-8に
+set hlsearch "検索結果をハイライト
+set ignorecase smartcase "大文字小文字を区別しない（ただし大文字が検索文字列に含まれるときは区別
+set incsearch "インクリメンタルサーチ
+set list "不可視文字を表示
+set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲ "不可視文字置き換え
+set number "行番号を表示
+set ruler "カーソル位置を右下に表示
+set scrolloff=5 "画面に常にに表示する行数
+set shiftwidth=4 "自動インデントでずれる幅
+set showcmd "入力中のコマンドを表示
+set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set softtabstop=4 "連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
+set tabstop=4 "画面上でタブ文字が占める幅
+set termencoding=UTF-8 "ターミナルのエンコードをUTF-8に
+
+"
+" 関数
+"
 function FigletVim()
     let string=getline('.')
     if string == ""
@@ -76,6 +93,19 @@ function FigletVim()
     execute 'normal "ap'
     let @a = tmp
 endfunction
+
+""""""""""
+" Keymap "
+"        "
+""""""""""
+"
+" Normal
+"
 nnoremap <C-_> :call FigletVim()<CR>
+
+"
+" Insert
+"
 inoremap <C-_> <ESC>:call FigletVim()<CR>i
 
+filetype plugin indent on

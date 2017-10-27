@@ -272,7 +272,3 @@ function trashEmptyDirectory () {
     done
     IFS=$OLDIFS
 }
-
-function gitroot () {
-    cd `git rev-parse --show-toplevel 2>/dev/null`
-}

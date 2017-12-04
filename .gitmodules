@@ -1,9 +1,9 @@
 [submodule "zsh/antigen"]
 	path = zsh/antigen
-	url = git://github.com/zsh-users/antigen.git
+	url = http://github.com/zsh-users/antigen.git
 [submodule "vim/bundle/vim-pathogen"]
 	path = vim/bundle/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen.git
 [submodule "vim/bundle/neobundle.vim"]
 	path = vim/bundle/neobundle.vim
-	url = git://github.com/Shougo/neobundle.vim.git
+	url = http://github.com/Shougo/neobundle.vim.git

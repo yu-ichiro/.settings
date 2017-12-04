@@ -21,9 +21,9 @@ call neobundle#begin(expand('~/.settings/vim/bundle/'))
  " My Bundles here:
  " Refer to |:NeoBundle-examples|.
  " Note: You don't set neobundle setting in .gvimrc!
- NeoBundle 'git://github.com/altercation/vim-colors-solarized.git'
+ NeoBundle 'altercation/vim-colors-solarized'
  NeoBundle 'alpaca-tc/alpaca_powertabline'
- NeoBundle 'https://github.com/Lokaltog/powerline.git'
+ NeoBundle 'Lokaltog/powerline.git'
  NeoBundle 'nathanaelkane/vim-indent-guides'
  NeoBundle 'apple-swift', {'type': 'nosync', 'base': '~/.settings/vim/bundle/swift-highlight'}
 call neobundle#end()

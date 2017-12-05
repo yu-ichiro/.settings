@@ -20,7 +20,7 @@ local sshchk=""
 local usercl=3
 local umark="$"
 [ "$UID" = "0" ]&&usercl=1&&umark="#"
-prom1=$'%{$(powliner -e $sshchk $(pwdarray -a))\n%}'
+prom1=$'%{$(eval powliner -e $sshchk $(pwdarray -a))\n%}'
 prom2=$'$(powliner -e "%n $umark:$usercl")'
 PROMPT="$prom1$prom2"
 RPROMPT='$(gitstat)'

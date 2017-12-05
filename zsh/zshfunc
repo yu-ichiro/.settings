@@ -147,7 +147,7 @@ function pwdarray () {
     done
     $ATTR&&pwdarray[$#pwdarray]="$pwdarray[$#pwdarray]:$SOLARIZED[blue]"
     for dir in $pwdarray; do
-        printf "\"$dir\" "
+        printf '"'$dir'" '
     done
 }
 

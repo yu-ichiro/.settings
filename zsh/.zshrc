@@ -25,9 +25,12 @@ local umark="$"
 local tmuxchk=""
 local tmuxcl=$SOLARIZED[orange]
 if [ "echo $(tmux list-sessions | wc -l)" != "0" ];then
-    tmuxchk=$'\u1d40\u1d39ux'":${tmuxcl}"
+    tmuxchk=$'\u1d40\u1d39ux'
     if [ "$TMUX" != "" ];then
-        tmuxchk="${tmuxchk} $(echo -n $TMUX| cut -d$',' -f3):$tmuxcl"
+        tmuxcl="6"
+        tmuxchk="${tmuxchk}:$tmuxcl $(echo -n $TMUX| cut -d$',' -f3):$tmuxcl"
+    else;
+        tmuxchk="${tmuxchk}:$tmuxcl"
     fi
 fi
 prom1=$'%{$(eval powliner -e $tmuxchk $sshchk $(pwdarray -a))\n%}'

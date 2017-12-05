@@ -20,7 +20,7 @@ function gitstat {
     else
         color=${SOLARIZED[red]}
     fi
-    eval 'powlinel -e " $name$action:$color"'
+    printf '"'$name:$color'"'
 }
 
 function zman() {
@@ -233,9 +233,9 @@ function powlinel () {
                 fi
             fi 
             if $esc_flag; then
-                disp="$disp%{\e[48;5;$bgc;38;5;$SOLARIZED[base3]m%}$dirname "
+                disp="$disp%{\e[48;5;$bgc;38;5;$SOLARIZED[base3]m%}$dirname %{\e[m%}"
             else
-                disp="$disp\e[48;5;$bgc;38;5;$SOLARIZED[base3]m$dirname "
+                disp="$disp\e[48;5;$bgc;38;5;$SOLARIZED[base3]m$dirname \e[m"
             fi
             prc=$bgc
         done
@@ -256,7 +256,7 @@ function powlinel () {
             if $esc_flag; then
                 disp="$disp ($bgc$dirname%{\e[m%}"
             else
-                disp="$disp ($bgc$dirname\e[m"
+                disp="$disp ($bgc$dirname\e[0m"
             fi
         done
         echo -n $disp

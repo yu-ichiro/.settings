@@ -30,6 +30,9 @@ if [ "echo $(tmux list-sessions | wc -l)" != "0" ];then
         tmuxcl="6"
         tmuxchk="${tmuxchk}:$tmuxcl $(echo -n $TMUX| cut -d$',' -f3):$tmuxcl"
     else;
+        if [ "$(echo $(tmux list-sessions | grep -v attached | wc -l ))" = "0" ];then
+            tmuxcl="6"
+        fi
         tmuxchk="${tmuxchk}:$tmuxcl"
     fi
 fi

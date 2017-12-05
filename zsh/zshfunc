@@ -20,7 +20,7 @@ function gitstat {
     else
         color=${SOLARIZED[red]}
     fi
-    printf '"'$name:$color'"'
+    printf '" '$name:$color'"'
 }
 
 function zman() {
@@ -143,9 +143,14 @@ function pwdarray () {
         itr=$((itr+1))
         pwdarray[$itr]=$(printf "$dir"|tr ':' ' ')
         curpath=$curpath$dir/
-        $ATTR&&[ -e "${curpath}.git" ]&&pwdarray[$itr]="$pwdarray[$itr]:g:$SOLARIZED[green]"
+        if [ $itr -eq $#pwdarray -a -e "${curpath}.git" ];then
+            $ATTR&&pwdarray[$itr]="$pwdarray[$itr]:g$SOLARIZED[blue]"
+        elif [ $itr -eq $#pwdarray ];then
+            $ATTR&&pwdarray[$itr]="$pwdarray[$itr]:$SOLARIZED[blue]"
+        elif [ -e "${curpath}.git" ];then
+            $ATTR&&pwdarray[$itr]="$pwdarray[$itr]:g$SOLARIZED[green]"
+        fi
     done
-    $ATTR&&pwdarray[$#pwdarray]="$pwdarray[$#pwdarray]:$SOLARIZED[blue]"
     for dir in $pwdarray; do
         printf '"'$dir'" '
     done
@@ -158,18 +163,15 @@ function powliner () {
     if $POWERLINE;then
         for item in $data;do
             bgc=$SOLARIZED[base01]
-            dirname=$(echo -n "$item" | sed -e "s/\"//g" | sed -e "s/:.*//")
-            attrs=( $(echo -n "$item" | tr ":" ' ' | tr "\"" ' ' ))
-            attrs=( $attrs[2,-1] )
-            for attr in $attrs;do
-                [ "$attr" = "g" ]&&dirname="$dirname \ue0a0"
-                [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc=$(echo $attr|grep -o -E '^[0-9]+$')
-            done
+            dirname=$(echo -n "$item" | sed -e "s/\"//g" | awk 'BEGIN{FS=":";OFS=":"}{if (NF!=1) $NF="";print $0}' | sed -e 's/:$//' )
+            attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
+            [ "$(echo $attr|grep -o -E 'g')" != "" ]&&dirname="$dirname \ue0a0"
+            [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc=$(echo $attr|grep -o -E '[0-9]+')
             if [ "$prc" != "" ];then
                 if $esc_flag;then
-                    [ "$prc" = "$bgc" ]&&disp="$disp\ue0b1"||disp="$disp%{\e[48;5;${bgc};38;5;${prc}m%}\ue0b0"
+                    [ "$prc" = "$bgc" ]&&disp="$disp%{\e[38;5;$SOLARIZED[base3];48;5;${prc}m%}\ue0b1%{%}"||disp="$disp%{\e[48;5;${bgc};38;5;${prc}m%}\ue0b0"
                 else
-                    [ "$prc" = "$bgc" ]&&disp="$disp\ue0b1"||disp="$disp\e[48;5;${bgc};38;5;${prc}m\ue0b0"
+                    [ "$prc" = "$bgc" ]&&disp="$disp\e[38;5;$SOLARIZED[base3];48;5;${prc}m\ue0b1"||disp="$disp\e[48;5;${bgc};38;5;${prc}m\ue0b0"
                 fi
             fi 
             if $esc_flag; then
@@ -189,17 +191,14 @@ function powliner () {
         echo -n $disp
     else
         for item in $data;do
-            dirname=$(echo -n "$item" | sed -e "s/\"//g" | sed -e "s/:.*//")
-            attrs=( $(echo -n "$item" | tr ":" ' ' | tr "\"" ' ' ))
-            attrs=( $attrs[2,-1] )
-            for attr in $attrs;do
-                [ "$attr" = "g" ]&&dirname="$dirname<g>"
-                if $esc_flag;then
-                    [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="%{\e[3$(echo $attr|grep -o -E '^[0-9]+$')m%}"
-                else
-                    [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '^[0-9]+$')m"
-                fi
-            done
+            dirname=$(echo -n "$item" | sed -e "s/\"//g" | awk 'BEGIN{FS=":";OFS=":"}{if (NF!=1) $NF="";print $0}' | sed -e 's/:$//' )
+            attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
+            [ "$(echo $attr|grep -o -E 'g')" != "" ]&&dirname="$dirname<g>"
+            if $esc_flag;then
+                [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc="%{\e[3$(echo $attr|grep -o -E '[0-9]+')m%}"
+            else
+                [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '[0-9]+')m"
+            fi
             if $esc_flag; then
                 disp="$disp$bgc$dirname%{\e[m%} )"
             else
@@ -218,18 +217,15 @@ function powlinel () {
         prc=$SOLARIZED[base03]
         for item in $data;do
             bgc=$SOLARIZED[base01]
-            dirname=$(echo -n "$item" | sed -e "s/\"//g" | sed -e "s/:.*//")
-            attrs=( $(echo -n "$item" | tr ":" ' ' | tr "\"" ' ' ))
-            attrs=( $attrs[2,-1] )
-            for attr in $attrs;do
-                [ "$attr" = "g" ]&&dirname="$dirname \ue0a0"
-                [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc=$(echo $attr|grep -o -E '^[0-9]+$')
-            done
+            dirname=$(echo -n "$item" | sed -e "s/\"//g" | awk 'BEGIN{FS=":";OFS=":"}{if (NF!=1) $NF="";print $0}' | sed -e 's/:$//' )
+            attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
+            [ "$(echo $attr|grep -o -E 'g')" != "" ]&&dirname="$dirname \ue0a0"
+            [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc=$(echo $attr|grep -o -E '[0-9]+')
             if [ "$prc" != "" ];then
                 if $esc_flag; then
-                    [ "$prc" = "$bgc" ]&&disp="$disp\ue0b3"||disp="$disp%{\e[38;5;${bgc};48;5;${prc}m%}\ue0b2"
+                    [ "$prc" = "$bgc" ]&&disp="$disp%{\e[38;5;$SOLARIZED[base3];48;5;${prc}m%}\ue0b3"||disp="$disp%{\e[38;5;${bgc};48;5;${prc}m%}\ue0b2"
                 else
-                    [ "$prc" = "$bgc" ]&&disp="$disp\ue0b3"||disp="$disp\e[38;5;${bgc};48;5;${prc}m\ue0b2"
+                    [ "$prc" = "$bgc" ]&&disp="$disp\e[38;5;$SOLARIZED[base3];48;5;${prc}m\ue0b3"||disp="$disp\e[38;5;${bgc};48;5;${prc}m\ue0b2"
                 fi
             fi 
             if $esc_flag; then
@@ -242,17 +238,14 @@ function powlinel () {
         echo -n $disp
     else
         for item in $data;do
-            dirname=$(echo -n "$item" | sed -e "s/\"//g" | sed -e "s/:.*//")
-            attrs=( $(printf "$item" | tr ":" ' ' | tr "\"" ' ' ))
-            attrs=( $attrs[2,-1] )
-            for attr in $attrs;do
-                [ "$attr" = "g" ]&&dirname="$dirname<g>"
-                if $esc_flag;then
-                    [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="%{\e[3$(echo $attr|grep -o -E '^[0-9]+$')m%}"
-                else
-                    [ "$(echo $attr|grep -o -E '^[0-9]+$')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '^[0-9]+$')m"
-                fi
-            done
+            dirname=$(echo -n "$item" | sed -e "s/\"//g" | awk 'BEGIN{FS=":";OFS=":"}{if (NF!=1) $NF="";print $0}' | sed -e 's/:$//' )
+            attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
+            [ "$(echo $attr|grep -o -E 'g')" != "" ]&&dirname="$dirname<g>"
+            if $esc_flag;then
+                [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc="%{\e[3$(echo $attr|grep -o -E '[0-9]+')m%}"
+            else
+                [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '[0-9]+')m"
+            fi
             if $esc_flag; then
                 disp="$disp ($bgc$dirname%{\e[m%}"
             else

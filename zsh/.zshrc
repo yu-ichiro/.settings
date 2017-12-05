@@ -23,7 +23,7 @@ local umark="$"
 prom1=$'%{$(eval powliner -e $sshchk $(pwdarray -a))\n%}'
 prom2=$'$(powliner -e "%n $umark:$usercl")'
 PROMPT="$prom1$prom2"
-RPROMPT=$'$(powlinel -e " $(gitstat)")'
+RPROMPT=$'$(eval powlinel -e $(gitstat) %D:13 %T:13)'
 SPROMPT='Did you mean "%r"?(You typed "%R")[(Y)es (N)o (A)bort (E)dit]'
 
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'

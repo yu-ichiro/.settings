@@ -12,15 +12,15 @@ function gitstat {
     gitdir=`git rev-parse --git-dir 2> /dev/null`
     st=`git status 2> /dev/null`
     if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-        color=${fg[green]}
+        color=${SOLARIZED[green]}
     elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
-        color=${fg[yellow]}
+        color=${SOLARIZED[yellow]}
     elif [[ -n `echo "$st" | grep "^Untracked"` ]]; then
-        color=${fg[blue]}
+        color=${SOLARIZED[blue]}
     else
-        color=${fg[red]}
+        color=${SOLARIZED[red]}
     fi
-    echo -n "[%{$color%}$name$action%{$reset_color%}]"
+    eval 'powlinel -e " $name$action:$color"'
 }
 
 function zman() {

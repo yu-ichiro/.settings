@@ -13,6 +13,9 @@ function gitstat {
     st=`git status 2> /dev/null`
     if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
         color=${SOLARIZED[green]}
+        if [[ -n `echo "$st" | grep ahead` ]]; then
+            color=${SOLARIZED[magenta]}
+        fi
     elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
         color=${SOLARIZED[yellow]}
     elif [[ -n `echo "$st" | grep "^Untracked"` ]]; then
@@ -22,7 +25,6 @@ function gitstat {
     fi
     commits_to_push=""
     if [[ -n `echo "$st" | grep ahead` ]]; then
-        color=${SOLARIZED[magenta]}
         commits_to_push=' "↑ '`echo "$st" | grep ahead | grep -o -E '[0-9]+'`:$SOLARIZED[magenta]'"'
     fi
     printf '" '$name:$color'"'$commits_to_push

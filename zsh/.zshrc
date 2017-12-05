@@ -22,23 +22,28 @@ local usercl=3
 local umark="$"
 [ "$UID" = "0" ]&&usercl=1&&umark="#"
 
-local tmuxchk=""
-local tmuxcl=$SOLARIZED[orange]
-if [ "echo $(tmux list-sessions | wc -l)" != "0" ];then
+function tmuxcheck() {
+    local tmuxchk=""
+    local tmuxcl=$SOLARIZED[orange]
+    if [ "$(echo $(tmux list-sessions 2>&1 | grep -v 'no server' | wc -l))" = "0" ];then
+        return
+    fi
     tmuxchk=$'\u1d40\u1d39ux'
     if [ "$TMUX" != "" ];then
         tmuxcl="6"
         tmuxchk="${tmuxchk}:$tmuxcl $(echo -n $TMUX| cut -d$',' -f3):$tmuxcl"
     else;
-        if [ "$(echo $(tmux list-sessions | grep -v attached | wc -l ))" = "0" ];then
+        if [ "$(echo $(tmux list-sessions 2>&1 | grep -v attached | wc -l ))" = "0" ];then
             tmuxcl="6"
         fi
         tmuxchk="${tmuxchk}:$tmuxcl"
     fi
-fi
-prom1=$'%{$(eval powliner -e $tmuxchk $sshchk $(pwdarray -a))\n%}'
-prom2=$'$(powliner -e "%n $umark:$usercl")'
-PROMPT="$prom1$prom2"
+    printf $tmuxchk
+}
+
+prom1=$'%{$(eval powliner -e $(tmuxcheck) $sshchk $(pwdarray -a))\n%}'
+prom2=$'%{\e[48;5;${usercl};38;5;15m%}%n $umark %{\e[48;5;%(?.6.1);38;5;${usercl}m%}\ue0b0%{\e[48;5;%(?.6.1);38;5;15m%}%? %{\e[48;5;${SOLARIZED[base03]};38;5;%(?.6.1)m%}\ue0b0'
+PROMPT="$prom1${prom2}"
 RPROMPT=$'$(eval powlinel -e $(gitstat) %D:13 %T:13)'
 SPROMPT='Did you mean "%r"?(You typed "%R")[(Y)es (N)o (A)bort (E)dit]'
 

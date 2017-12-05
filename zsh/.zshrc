@@ -17,10 +17,20 @@ loadlib $HOME/.zshlocal         #local
 
 local sshchk=""
 [ "$SSH_CONNECTION$REMOTEHOST" != "" ]&&sshchk='%M:6'
+
 local usercl=3
 local umark="$"
 [ "$UID" = "0" ]&&usercl=1&&umark="#"
-prom1=$'%{$(eval powliner -e $sshchk $(pwdarray -a))\n%}'
+
+local tmuxchk=""
+local tmuxcl=$SOLARIZED[orange]
+if [ "echo $(tmux list-sessions | wc -l)" != "0" ];then
+    tmuxchk=$'\u1d40\u1d39ux'":${tmuxcl}"
+    if [ "$TMUX" != "" ];then
+        tmuxchk="${tmuxchk} $(echo -n $TMUX| cut -d$',' -f3):$tmuxcl"
+    fi
+fi
+prom1=$'%{$(eval powliner -e $tmuxchk $sshchk $(pwdarray -a))\n%}'
 prom2=$'$(powliner -e "%n $umark:$usercl")'
 PROMPT="$prom1$prom2"
 RPROMPT=$'$(eval powlinel -e $(gitstat) %D:13 %T:13)'

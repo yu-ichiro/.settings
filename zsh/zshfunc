@@ -27,7 +27,11 @@ function gitstat {
     if [[ -n `echo "$st" | grep ahead` ]]; then
         commits_to_push=' "↑ '`echo "$st" | grep ahead | grep -o -E '[0-9]+'`:$SOLARIZED[magenta]'"'
     fi
-    printf '" '$name:$color'"'$commits_to_push
+    stash=""
+    if [ "$(echo $(git stash list | wc -l))" != "0" ]; then
+        stash=' " ❐ '$(echo $(git stash list|wc -l))':'$SOLARIZED[yellow]'"'
+    fi
+    printf '" '$name:$color'"'$commits_to_push$stash
 }
 
 function zman() {

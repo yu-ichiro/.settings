@@ -25,7 +25,7 @@ local umark="$"
 function tmuxcheck() {
     local tmuxchk=""
     local tmuxcl=$SOLARIZED[orange]
-    if [ "$(echo $(tmux list-sessions 2>&1 | grep -v 'no server' | wc -l))" = "0" ];then
+    if [ "$(echo $(tmux ls >/dev/null 2>&1;echo $?))" != "0" ];then
         return
     fi
     tmuxchk=$'\u1d40\u1d39ux'

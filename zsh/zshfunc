@@ -276,3 +276,7 @@ function trashEmptyDirectory () {
     done
     IFS=$OLDIFS
 }
+
+function php-serve () {
+    php -dxdebug.remote_enable=1 -dxdebug.remote_autostart=1 -dxdebug.remote_host=localhost -dxdebug.remote_port=$((${1:-8000} + 1000)) -dxdebug.remote_log=/tmp/xdebug.log -S 127.0.0.1:${1:-8000} -t  public/
+}

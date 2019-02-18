@@ -3,10 +3,10 @@
 
 my personal dotfiles
 
-##Installation
+## Installation
 
 ```
-curl https://raw.githubusercontent.com/yu-ichiro/.settings/master/install.sh | source /dev/stdin
+curl https://raw.githubusercontent.com/yu-ichiro/.settings/master/install.sh | bash
 ```
 
 

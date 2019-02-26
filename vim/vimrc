@@ -23,10 +23,85 @@ call neobundle#begin(expand('~/.settings/vim/bundle/'))
  " Note: You don't set neobundle setting in .gvimrc!
  NeoBundle 'altercation/vim-colors-solarized'
  NeoBundle 'alpaca-tc/alpaca_powertabline'
- NeoBundle 'Lokaltog/powerline.git'
+ "NeoBundle 'Lokaltog/powerline.git'
  NeoBundle 'nathanaelkane/vim-indent-guides'
- NeoBundle 'apple-swift', {'type': 'nosync', 'base': '~/.settings/vim/bundle/swift-highlight'}
+ "NeoBundle 'apple-swift', {'type': 'nosync', 'base': '~/.settings/vim/bundle/swift-highlight'}
+ NeoBundle 'Shougo/neocomplete'
+ NeoBundle 'scrooloose/nerdtree'
+
+ NeoBundle 'majutsushi/tagbar'
+ NeoBundle 'szw/vim-tags'
+
+ NeoBundle 'tpope/vim-endwise'
+
+ "" markdownプレビュー
+ NeoBundle 'plasticboy/vim-markdown'
+ NeoBundle 'kannokanno/previm'
+ NeoBundle 'tyru/open-browser.vim'
+
+ "" python構文・コーディング規約チェック
+ NeoBundle 'Flake8-vim'
+ NeoBundle 'davidhalter/jedi-vim'
+ NeoBundle 'hynek/vim-python-pep8-indent'
+
+ "" HTML/CSS
+ "NeoBundle 'amirh/HTML-AutoCloseTag'
+ NeoBundle 'hail2u/vim-css3-syntax'
+ NeoBundle 'gorodinskiy/vim-coloresque'
+ NeoBundle 'mattn/emmet-vim'
+
+ NeoBundle 'tpope/vim-surround'
+
+ NeoBundle 'othree/yajs.vim'
+
+ "" JSON syntax
+ NeoBundle 'elzr/vim-json'
+
+ NeoBundle 'leafgarland/typescript-vim'
+ NeoBundle 'jason0x43/vim-js-indent'
+
 call neobundle#end()
+
+NeoBundleCheck
+
+"*****************************************************************************
+""" Abbreviations
+"*****************************************************************************
+""" NERDTree
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules', 'bower_components']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+let g:NERDTreeWinSize = 30
+let NERDTreeShowHidden=1
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+
+"" neocomplete
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_ignore_case = 1
+let g:neocomplete#enable_smart_case = 1
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+
+"" emmet
+let g:neocomplete#keyword_patterns._ = '\h\w*'
+let g:user_emmet_leader_key='<c-e>'
+let g:user_emmet_settings = {
+            \    'variables': {
+            \      'lang': "ja"
+            \    },
+            \   'indentation': '  '
+            \ }
+
+"******************
+"" PyFlake
+let g:PyFlakeOnWrite = 1
+let g:PyFlakeCheckers = 'pep8,mccabe,pyflakes'
+let g:PyFlakeDefaultComplexity=10
+"******************
 
 "
 " Solarized
@@ -37,9 +112,11 @@ colorscheme solarized
 "
 " Powerline
 "
+python3 from powerline.vim import setup as powerline_setup
+python3 powerline_setup()
+python3 del powerline_setup
 set showtabline=2 "タブページを常に表示
 set laststatus=2 "ステータスバーを表示
-set runtimepath+=~/.settings/vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
 set noshowmode
 
@@ -101,11 +178,12 @@ endfunction
 "
 " Normal
 "
-nnoremap <C-_> :call FigletVim()<CR>
+nnoremap <silent><C-/> :NERDTreeFind<CR>
+nnoremap <silent><C-n> :NERDTreeToggle<CR>
 
 "
 " Insert
 "
-inoremap <C-_> <ESC>:call FigletVim()<CR>i
+inoremap <C-_> :NERDTreeToggle<CR>
 
 filetype plugin indent on

@@ -6,13 +6,13 @@ function loadlib() {
         fi
 }
 
-loadlib $ZDOTDIR/zshvars		#変数
-loadlib $ZDOTDIR/zshfunc		#関数
-loadlib $ZDOTDIR/zshantigen		#antigen 関連
+loadlib $ZDOTDIR/zshvars        #変数
+loadlib $ZDOTDIR/zshfunc        #関数
+loadlib $ZDOTDIR/zshantigen     #antigen 関連
 loadlib $ZDOTDIR/zshautoload    #autoload
-loadlib $ZDOTDIR/zshopts		#optset
-loadlib $ZDOTDIR/zshalias		#alias
-loadlib $ZDOTDIR/zshbindkeys	#bindkey
+loadlib $ZDOTDIR/zshopts        #optset
+loadlib $ZDOTDIR/zshalias       #alias
+loadlib $ZDOTDIR/zshbindkeys    #bindkey
 loadlib $HOME/.zshlocal         #local
 
 local sshchk=""

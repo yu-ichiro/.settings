@@ -186,4 +186,11 @@ nnoremap <silent><C-n> :NERDTreeToggle<CR>
 "
 inoremap <C-_> :NERDTreeToggle<CR>
 
+"
+" Command
+"
+"
+" 保存時にsudo権限で無理やり保存
+cnoremap w!! w !sudo tee > /dev/null %<CR>
+
 filetype plugin indent on

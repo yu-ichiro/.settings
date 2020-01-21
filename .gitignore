@@ -8,3 +8,4 @@ less
 vim/bundle/
 !neobundle.vim
 !vim-pathogen
+*.zwc

@@ -2,7 +2,9 @@ fpath=($ZDOTDIR/zfunctions $fpath)
 function loadlib() {
         lib=${1:?"You have to specify a library file"}
         if [ -f "$lib" ];then #ファイルの存在を確認
-                . "$lib"
+            . "$lib"
+        else
+            echo '"$lib" not found'
         fi
 }
 
@@ -49,4 +51,5 @@ SPROMPT='Did you mean "%r"?(You typed "%R")[(Y)es (N)o (A)bort (E)dit]'
 
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
 
-
+# なんか初期化がうまく行かないのでもう一回呼び出す
+loadlib $ZDOTDIR/zshantigen     #antigen 関連

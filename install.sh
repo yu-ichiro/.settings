@@ -48,4 +48,10 @@ ${MAC} && {
     [[ -e "defaults.sh" ]]&&zsh defaults.sh
     cd $HOME
 }
+
+echo "setting up vim"
+mkdir -p $HOME/Library/Frameworks/
+[[ ! -e $HOME/Library/Frameworks/Python.framework/ ]]&&ln -s /usr/local/Frameworks/Python.framework ~/Library/Frameworks/
+$HOME/.settings/vim/bundle/neobundle.vim/bin/neoinstall
+pip3 install powerline-status
 echo "All Green! Your working environment is complete."

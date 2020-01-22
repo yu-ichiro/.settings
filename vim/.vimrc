@@ -2,17 +2,23 @@ set runtimepath^=$HOME/.settings/vim
 set runtimepath+=$HOME/.settings/vim/after
 set viminfo+=n$HOME/.settings/vim/viminfo
 
-set nocompatible
 filetype plugin indent off
 
-"
-" NeoBundle
-"
+if has('vim_starting')
+  if &compatible
+    set nocompatible               " Be iMproved
+  endif
+
+  " Required:
+  set runtimepath+=$HOME/.settings/vim/bundle/neobundle.vim/
+endif
+
+" Required:
 call neobundle#begin(expand('~/.settings/vim/bundle/'))
 
- " Let NeoBundle manage NeoBundle
- " Required:
- NeoBundleFetch 'Shougo/neobundle.vim'
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
 
  " My Bundles here:
  " Refer to |:NeoBundle-examples|.

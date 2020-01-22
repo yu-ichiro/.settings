@@ -4,6 +4,4 @@ if [ -x /usr/libexec/path_helper ]; then
 fi
 
 export ZDOTDIR=$HOME/.settings/zsh
-autoload -Uz compinit
-compinit
 

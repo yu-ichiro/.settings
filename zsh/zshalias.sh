@@ -1,3 +1,4 @@
+#! /bin/zsh
 alias L=' ls -AhFG'
 alias G='| grep'
 alias peco='peco --rcfile=$HOME/.settings/.pecorc'

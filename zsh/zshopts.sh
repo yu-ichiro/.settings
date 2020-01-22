@@ -1,3 +1,4 @@
+#! /bin/zsh
 setopt auto_cd
 setopt promptcr
 setopt prompt_subst

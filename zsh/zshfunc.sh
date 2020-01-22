@@ -1,3 +1,4 @@
+#! /bin/zsh
 #functions read into .zshrc
 function gitstat {
     local name st color action gitdir
@@ -6,7 +7,7 @@ function gitstat {
         return
     fi
     name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
-    if [[ -z $name ]]; then
+    if [[ -z ${name} ]]; then
         return
     fi
     gitdir=`git rev-parse --git-dir 2> /dev/null`

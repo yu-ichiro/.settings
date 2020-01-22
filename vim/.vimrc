@@ -2,10 +2,6 @@ set runtimepath^=$HOME/.settings/vim
 set runtimepath+=$HOME/.settings/vim/after
 set viminfo+=n$HOME/.settings/vim/viminfo
 
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-
-execute pathogen#infect()
-
 set nocompatible
 filetype plugin indent off
 

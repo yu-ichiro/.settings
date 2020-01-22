@@ -1,3 +1,4 @@
+#! /bin/zsh
 #pecokill
 pids=`ps aux | awk '{ printf "%15s %6s %4s%% %4s%% %s\n", $1 , $2 , $3 ,$4 ,$11 }' | peco --query "$LBUFFER" | awk '{print $2}'`
 if [ -z "$pids" ]; then

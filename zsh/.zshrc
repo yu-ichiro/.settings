@@ -4,18 +4,18 @@ function loadlib() {
         if [ -f "$lib" ];then #ファイルの存在を確認
             . "$lib"
         else
-            echo '"$lib" not found'
+            echo '"'$lib'" not found'
         fi
 }
 
-loadlib $ZDOTDIR/zshvars        #変数
-loadlib $ZDOTDIR/zshfunc        #関数
-loadlib $ZDOTDIR/zshantigen     #antigen 関連
-loadlib $ZDOTDIR/zshautoload    #autoload
-loadlib $ZDOTDIR/zshopts        #optset
-loadlib $ZDOTDIR/zshalias       #alias
-loadlib $ZDOTDIR/zshbindkeys    #bindkey
-loadlib $HOME/.zshlocal         #local
+loadlib $ZDOTDIR/zshvars.sh        #env
+loadlib $ZDOTDIR/zplug.sh          #zplug
+loadlib $ZDOTDIR/zshfunc.sh        #関数
+loadlib $ZDOTDIR/zshautoload.sh    #autoload
+loadlib $ZDOTDIR/zshopts.sh        #optset
+loadlib $ZDOTDIR/zshalias.sh       #alias
+loadlib $ZDOTDIR/zshbindkeys.sh    #bindkey
+loadlib $HOME/.zshlocal            #local
 
 local sshchk=""
 [ "$SSH_CONNECTION$REMOTEHOST" != "" ]&&sshchk='%M:6'
@@ -50,6 +50,3 @@ RPROMPT=$'$(eval powlinel -e $(gitstat) %D:13 %T:13)'
 SPROMPT='Did you mean "%r"?(You typed "%R")[(Y)es (N)o (A)bort (E)dit]'
 
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
-
-# なんか初期化がうまく行かないのでもう一回呼び出す
-loadlib $ZDOTDIR/zshantigen     #antigen 関連

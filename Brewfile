@@ -1,11 +1,11 @@
 tap "adoptopenjdk/openjdk"
-tap "caskroom/cask"
 tap "delphinus/sfmono-square"
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
 tap "homebrew/services"
 tap "yu-ichiro/brew"
+cask "adoptopenjdk8"
 brew "bash-completion@2"
 brew "ctop"
 brew "curl"
@@ -36,7 +36,6 @@ brew "pyenv"
 brew "pyenv-virtualenv"
 brew "rmtrash"
 brew "rsync"
-brew "sshrc"
 brew "telnet"
 brew "tig"
 brew "tldr"
@@ -46,11 +45,11 @@ brew "unicorn"
 brew "watch"
 brew "xdelta"
 brew "z"
+brew "zplug"
 brew "zsh"
 brew "zsh-completions"
 brew "delphinus/sfmono-square/sfmono-square"
 brew "yu-ichiro/brew/vim"
-cask "adoptopenjdk8"
 cask "alfred"
 cask "android-sdk"
 cask "appcleaner"
@@ -67,21 +66,23 @@ cask "google-japanese-ime"
 cask "grandperspective"
 cask "gyazo"
 cask "iterm2"
+cask "jetbrains-toolbox"
 cask "keycastr"
 cask "ngrok"
 cask "paw"
-cask "pycharm"
 cask "qlmarkdown"
 cask "sequel-pro"
-cask "table-tool"
+cask "skype"
+cask "spotify"
 cask "thedesk"
 cask "typora"
-cask "webstorm"
 mas "1Password 7", id: 1333542190
 mas "Evernote", id: 406056744
+mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "LadioCast", id: 411213048
+mas "LINE", id: 539883307
 mas "Logic Pro X", id: 634148309
 mas "Magnet", id: 441258766
 mas "MainStage 3", id: 634159523
@@ -93,8 +94,10 @@ mas "PopClip", id: 445189367
 mas "Skitch", id: 425955336
 mas "Slack", id: 803453959
 mas "Spark", id: 1176895641
+mas "Table Tool", id: 1122008420
 mas "The Unarchiver", id: 425424353
 mas "Things", id: 904280696
 mas "Trello", id: 1278508951
 mas "TweetDeck", id: 485812721
+mas "Twitter", id: 1482454543
 mas "Xcode", id: 497799835

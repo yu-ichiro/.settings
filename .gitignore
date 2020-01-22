@@ -2,10 +2,11 @@
 .zsh_history
 .zcompdump
 .netrwhist
+.idea
 viminfo
 lesshst
 less
-vim/bundle/
+vim/bundle/*
 !neobundle.vim
-!vim-pathogen
+!.gitkeep
 *.zwc

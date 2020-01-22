@@ -1,3 +1,5 @@
+#! /bin/zsh
+
 bindkey -d
 
 # bind UP and DOWN arrow keys

@@ -2,6 +2,7 @@
 if [ -x /usr/libexec/path_helper ]; then
     eval `/usr/libexec/path_helper -s`
 fi
-
+# local bin
+export PATH=$HOME/.bin:$PATH
 export ZDOTDIR=$HOME/.settings/zsh
 

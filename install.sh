@@ -8,6 +8,7 @@ NOSTACK=1 cd $HOME
 [[ ! -e "$HOME/.tmux.conf" ]]&& printf "Linking .tmux.conf..."  && ln -sf $HOME/.settings/tmux/.tmux.conf $HOME/.tmux.conf  && echo "Done."
 [[ ! -e "$HOME/.tigrc" ]]&&     printf "Linking .tigrc..."      && ln -sf $HOME/.settings/.tigrc $HOME/.tigrc               && echo "Done."
 [[ ! -e "$HOME/.zshlocal" ]]&&  printf "Creating .zshlocal..."  && echo "#External zsh local settings" > "$HOME/.zshlocal"  && echo "Done."
+[[ ! -e "$HOME/.bin" ]]&&       printf "Creating .bin..."       && mkdir "$HOME/.bin"                                       && echo "Done."
 
 NOSTACK=1 cd $HOME/.settings;       printf   "Initializing & Updating Submodules..."
     git submodule update --recursive --init

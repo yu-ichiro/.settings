@@ -43,9 +43,10 @@ function tmuxcheck() {
     printf $tmuxchk
 }
 
+prom0=$'%{$(eval powliner -e "\uf120":16 $(ppwalk | tail -r | tr " " "/" | xargs ):5)\n%}'
 prom1=$'%{$(eval powliner -e $(tmuxcheck) $sshchk $(pwdarray -a))\n%}'
 prom2=$'%{\e[48;5;${usercl};38;5;15m%}%n $umark %{\e[48;5;%(?.6.1);38;5;${usercl}m%}\ue0b0%{\e[48;5;%(?.6.1);38;5;15m%}%? %{\e[48;5;${SOLARIZED[base03]};38;5;%(?.6.1)m%}\ue0b0'
-PROMPT="$prom1${prom2}"
+PROMPT="${prom0}$prom1${prom2}"
 RPROMPT=$'$(eval powlinel -e $(gitstat) %D:13 %T:13)'
 SPROMPT='Did you mean "%r"?(You typed "%R")[(Y)es (N)o (A)bort (E)dit]'
 

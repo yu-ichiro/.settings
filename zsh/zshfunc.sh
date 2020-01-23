@@ -29,7 +29,7 @@ function gitstat {
         commits_to_push=' "↑ '`echo "$st" | grep ahead | grep -o -E '[0-9]+'`:$SOLARIZED[magenta]'"'
     fi
     stash=""
-    if [ "$(echo $(git stash list | wc -l))" != "0" ]; then
+    if [[ "$(echo $(git stash list | wc -l))" != "0" ]]; then
         stash=' " ❐ '$(echo $(git stash list|wc -l))':'$SOLARIZED[yellow]'"'
     fi
     printf '" '$name:$color'"'$commits_to_push$stash
@@ -168,104 +168,91 @@ function pwdarray () {
     done
 }
 
-function powliner () {
-    local bgc prc disp data attrs item attr git_flag esc_flag
-    [ "$1" = "-e" ]&&esc_flag=true&&shift||esc_flag=false
-    data=( $@ )
-    if $POWERLINE;then
-        for item in $data;do
-            bgc=$SOLARIZED[base01]
-            dirname=$(echo -n "$item" | sed -e "s/\"//g" | awk 'BEGIN{FS=":";OFS=":"}{if (NF!=1) $NF="";print $0}' | sed -e 's/:$//' )
-            attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
-            [ "$(echo $attr|grep -o -E 'g')" != "" ]&&dirname="$dirname \ue0a0"
-            [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc=$(echo $attr|grep -o -E '[0-9]+')
-            if [ "$prc" != "" ];then
-                if $esc_flag;then
-                    [ "$prc" = "$bgc" ]&&disp="$disp%{\e[38;5;$SOLARIZED[base3];48;5;${prc}m%}\ue0b1%{%}"||disp="$disp%{\e[48;5;${bgc};38;5;${prc}m%}\ue0b0"
-                else
-                    [ "$prc" = "$bgc" ]&&disp="$disp\e[38;5;$SOLARIZED[base3];48;5;${prc}m\ue0b1"||disp="$disp\e[48;5;${bgc};38;5;${prc}m\ue0b0"
-                fi
-            fi 
-            if $esc_flag; then
-                disp="$disp%{\e[48;5;$bgc;38;5;$SOLARIZED[base3]m%}$dirname "
-            else
-                disp="$disp\e[48;5;$bgc;38;5;$SOLARIZED[base3]m$dirname "
-            fi
-            prc=$bgc
-        done
-        if $esc_flag; then
-            disp="$disp%{\e[38;5;${prc};48;5;$SOLARIZED[base03]m%}\ue0b0"
-            disp="$disp%{\e[m%}"
+function powline () {
+    function ch_color () {
+        local front back
+        [[ "$1" = "-e" ]]&&esc_flag=$1&&shift
+        [[ "$1" != "" ]]&&front="38;5;$1;"
+        [[ "$2" != "" ]]&&back="48;5;$2;"
+        [[ "$esc_flag" != "-e" ]]&&echo -n "\e[${front}${back}m"||echo -n "%{\e[${front}${back}m%}"
+    }
+    function separator () {
+        local esc_flag
+        [[ "$1" = "-e" ]]&&esc_flag=$1&&shift
+        mode=$1;shift
+        direction=$1;shift
+        from=$1;shift
+        to=$1;shift
+        local symbol
+        if [[ "$mode" = "powerline" ]];then
+            [[ "$direction" = "right" && "$from" != "$to" ]]&&symbol="\ue0b0"
+            [[ "$direction" = "right" && "$from"  = "$to" ]]&&symbol="\ue0b1"
+            [[ "$direction" = "left"  && "$from" != "$to" ]]&&symbol="\ue0b2"
+            [[ "$direction" = "left"  && "$from"  = "$to" ]]&&symbol="\ue0b3"
         else
-            disp="$disp\e[38;5;${prc};48;5;$SOLARIZED[base03]m\ue0b0"
-            disp="$disp\e[m"
+            [[ "$direction" = "right" ]]&&symbol=">"
+            [[ "$direction" = "left"  ]]&&symbol="<"
         fi
-        echo -n $disp
-    else
-        for item in $data;do
-            dirname=$(echo -n "$item" | sed -e "s/\"//g" | awk 'BEGIN{FS=":";OFS=":"}{if (NF!=1) $NF="";print $0}' | sed -e 's/:$//' )
-            attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
-            [ "$(echo $attr|grep -o -E 'g')" != "" ]&&dirname="$dirname<g>"
-            if $esc_flag;then
-                [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc="%{\e[3$(echo $attr|grep -o -E '[0-9]+')m%}"
+        local output
+        if [[ "$mode" = "powerline" ]];then
+            if [[ "$from" = "$to" ]];then
+                output=${symbol}
             else
-                [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '[0-9]+')m"
+                [[ "$direction" = "right" ]]&&start=$(ch_color ${esc_flag} ${from} ${to})
+                [[ "$direction" = "left" ]]&&start=$(ch_color ${esc_flag} ${to} ${from})
+                end=$(ch_color ${esc_flag} ${SOLARIZED[base3]} ${to})
+                output=${start}${symbol}${end}
             fi
-            if $esc_flag; then
-                disp="$disp$bgc$dirname%{\e[m%} )"
-            else
-                disp="$disp$bgc$dirname\e[m )"
-            fi
-        done
-        echo -n $disp
-    fi
+        else
+            output=${symbol}
+        fi
+        echo -n " ${output}"
+    }
+
+    local esc_flag
+    [[ "$1" = "-e" ]]&&esc_flag=$1&&shift
+
+    ${POWERLINE}&&mode="powerline"||mode="no-powerline"
+    direction=$1;shift
+
+    front_color=$SOLARIZED[base3]
+    local first last
+    current_color=$SOLARIZED[base03]
+    [[ "$direction" = "right" ]]&& last=":$SOLARIZED[base03]"
+    [[ "$direction" = "left"  ]]&&first=":$SOLARIZED[base03]"
+    previous_color=${current_color}
+
+    data=(${first} $@ ${last})
+    idx=0
+    buffer=""
+    for item in $data;do
+        [[ "$mode" = "powerline"  ]]&&current_color=$SOLARIZED[base01]
+        [[ "$mode" != "powerline"  ]]&&current_color=$front_color
+        output=$(echo -n "$item" | sed -e "s/\"//g" | awk 'BEGIN{FS=":";OFS=":"}{if (NF!=1) $NF="";print $0}' | sed -e 's/:$//' )
+        attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
+        [[ "$attr" = "$output" ]]&&attr=""
+        [[ "$(echo ${attr}|grep -o -E 'g')" != "" ]]&&output="$output \ue0a0"
+        [[ "$(echo ${attr}|grep -o -E '[0-9]+')" != "" ]]&&current_color=$(echo ${attr}|grep -o -E '[0-9]+')
+
+        [[ "$mode" = "powerline" && "$idx" = "0"  ]]&&buffer="$(ch_color ${esc_flag} ${front_color} ${current_color})"
+        [[ "$mode" != "powerline"  ]]&&output="$(ch_color ${esc_flag} ${current_color})$output$(ch_color ${esc_flag})"
+
+        [[ "$idx" != "0" ]]&&output="$(separator ${esc_flag} ${mode} ${direction} ${previous_color} ${current_color})$output"
+        buffer="${buffer}${output}"
+        previous_color=${current_color}
+        idx=$((idx+1))
+    done
+    echo -n ${buffer}$(ch_color ${esc_flag})
+}
+
+function powliner () {
+    [[ "$1" = "-e" ]]&&esc_flag=$1&&shift
+    powline ${esc_flag} right $@
 }
 
 function powlinel () {
-    local bgc prc disp data attrs item attr git_flag esc_flag
-    [ "$1" = "-e" ]&&esc_flag=true&&shift||esc_flag=false
-    data=( $@ )
-    if $POWERLINE;then
-        prc=$SOLARIZED[base03]
-        for item in $data;do
-            bgc=$SOLARIZED[base01]
-            dirname=$(echo -n "$item" | sed -e "s/\"//g" | awk 'BEGIN{FS=":";OFS=":"}{if (NF!=1) $NF="";print $0}' | sed -e 's/:$//' )
-            attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
-            [ "$(echo $attr|grep -o -E 'g')" != "" ]&&dirname="$dirname \ue0a0"
-            [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc=$(echo $attr|grep -o -E '[0-9]+')
-            if [ "$prc" != "" ];then
-                if $esc_flag; then
-                    [ "$prc" = "$bgc" ]&&disp="$disp%{\e[38;5;$SOLARIZED[base3];48;5;${prc}m%}\ue0b3"||disp="$disp%{\e[38;5;${bgc};48;5;${prc}m%}\ue0b2"
-                else
-                    [ "$prc" = "$bgc" ]&&disp="$disp\e[38;5;$SOLARIZED[base3];48;5;${prc}m\ue0b3"||disp="$disp\e[38;5;${bgc};48;5;${prc}m\ue0b2"
-                fi
-            fi 
-            if $esc_flag; then
-                disp="$disp%{\e[48;5;$bgc;38;5;$SOLARIZED[base3]m%}$dirname %{\e[m%}"
-            else
-                disp="$disp\e[48;5;$bgc;38;5;$SOLARIZED[base3]m$dirname \e[m"
-            fi
-            prc=$bgc
-        done
-        echo -n $disp
-    else
-        for item in $data;do
-            dirname=$(echo -n "$item" | sed -e "s/\"//g" | awk 'BEGIN{FS=":";OFS=":"}{if (NF!=1) $NF="";print $0}' | sed -e 's/:$//' )
-            attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
-            [ "$(echo $attr|grep -o -E 'g')" != "" ]&&dirname="$dirname<g>"
-            if $esc_flag;then
-                [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc="%{\e[3$(echo $attr|grep -o -E '[0-9]+')m%}"
-            else
-                [ "$(echo $attr|grep -o -E '[0-9]+')" != "" ]&&bgc="\e[3$(echo $attr|grep -o -E '[0-9]+')m"
-            fi
-            if $esc_flag; then
-                disp="$disp ($bgc$dirname%{\e[m%}"
-            else
-                disp="$disp ($bgc$dirname\e[0m"
-            fi
-        done
-        echo -n $disp
-    fi
+    [[ "$1" = "-e" ]]&&esc_flag=$1&&shift
+    powline ${esc_flag} left $@
 }
 
 function trashEmptyDirectory () {

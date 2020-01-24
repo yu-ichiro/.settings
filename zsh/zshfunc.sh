@@ -6,10 +6,11 @@ function gitstat {
     if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
         return
     fi
-    name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
+    name=$(git rev-parse --abbrev-ref=loose HEAD 2> /dev/null)
     if [[ -z ${name} ]]; then
         return
     fi
+    [[ -n $(git status -sb | head -1 | grep "\.\.\." ) ]]&&name="${name} \uf45c"
     gitdir=`git rev-parse --git-dir 2> /dev/null`
     st=`git status 2> /dev/null`
     if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
@@ -172,8 +173,8 @@ function powline () {
     function ch_color () {
         local front back
         [[ "$1" = "-e" ]]&&esc_flag=$1&&shift
-        [[ "$1" != "" ]]&&front="38;5;$1;"
-        [[ "$2" != "" ]]&&back="48;5;$2;"
+        [[ "$1" != "" && "$1" != "clear" ]]&&front="38;5;$1;"
+        [[ "$2" != "" && "$2" != "clear" ]]&&back="48;5;$2;"
         [[ "$esc_flag" != "-e" ]]&&echo -n "\e[${front}${back}m"||echo -n "%{\e[${front}${back}m%}"
     }
     function separator () {
@@ -232,6 +233,7 @@ function powline () {
         attr=$(echo -n "$item" | tr "\"" ' ' | awk 'BEGIN{FS=":";OFS=":"}{print $NF}')
         [[ "$attr" = "$output" ]]&&attr=""
         [[ "$(echo ${attr}|grep -o -E 'g')" != "" ]]&&output="$output \ue0a0"
+        [[ "$(echo ${attr}|grep -o -E 'c')" != "" ]]&&current_color="clear"
         [[ "$(echo ${attr}|grep -o -E '[0-9]+')" != "" ]]&&current_color=$(echo ${attr}|grep -o -E '[0-9]+')
 
         [[ "$mode" = "powerline" && "$idx" = "0"  ]]&&buffer="$(ch_color ${esc_flag} ${front_color} ${current_color})"

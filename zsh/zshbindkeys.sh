@@ -1,6 +1,6 @@
 #! /bin/zsh
 
-bindkey -d
+bindkey -d  # reset
 
 # bind UP and DOWN arrow keys
 bindkey '^[[A' history-substring-search-up
@@ -13,3 +13,5 @@ bindkey '^r' _peco-hist
 bindkey '^[]' _dir-forward
 bindkey '^[[' _dir-back
 bindkey '^[_' _dir-showstack
+
+bindkey $EASY_ONE_KEYBIND easy-oneliner

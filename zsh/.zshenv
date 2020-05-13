@@ -5,4 +5,4 @@ fi
 # local bin
 export PATH=$HOME/.bin:$PATH
 export ZDOTDIR=$HOME/.settings/zsh
-
+export VIRTUAL_ENV_DISABLE_PROMPT=1

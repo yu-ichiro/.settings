@@ -1,5 +1,5 @@
 #!/bin/zsh
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME=$(brew --prefix)/opt/zplug
 source ${ZPLUG_HOME}/init.zsh
 
 zplug "zsh-users/zsh-history-substring-search"

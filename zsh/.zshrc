@@ -43,7 +43,7 @@ function tmuxcheck() {
     printf $tmuxchk
 }
 
-prom0=$'%{$(eval powliner -e "\uf120\\ :16" $(ppwalk -l | sed -e "s/login/login:16/" | tail -r | tr " " "/" | xargs ):5)\n%}'
+prom0=$'%{$(eval powliner -e "\uf120\\ :16" $(ppwalk -l | sed -e "s/login/login:16/" | reverse | tr " " "/" | xargs ):5)\n%}'
 prom1=$'%{$(eval powliner -e $(tmuxcheck) $sshchk $(pwdarray -a))\n%}'
 prom2=$'%{\e[48;5;${usercl};38;5;15m%}%n $umark %{\e[48;5;%(?.6.1);38;5;${usercl}m%}\ue0b0%{\e[48;5;%(?.6.1);38;5;15m%}%? %{\e[48;5;${SOLARIZED[base03]};38;5;%(?.6.1)m%}\ue0b0'
 PROMPT="${prom0}$prom1${prom2}"

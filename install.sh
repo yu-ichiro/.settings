@@ -2,14 +2,14 @@
 
 echo "Getting the remote working environment.."
 NOSTACK=1 cd $HOME
-[[ ! -e "$HOME/.settings" ]]&&          printf "Cloning .settings..."                   && git clone https://github.com/yu-ichiro/.settings.git                                 && echo "Done."
-[[ ! -e "$HOME/.zshenv" ]]&&            printf "Linking .zshenv..."                     && ln -sf $HOME/.settings/zsh/.zshenv $HOME/.zshenv                                     && echo "Done."
-[[ ! -e "$HOME/.vimrc" ]]&&             printf "Linking .vimrc..."                      && ln -sf $HOME/.settings/vim/.vimrc $HOME/.vimrc                                       && echo "Done."
-[[ ! -e "$HOME/.tmux.conf" ]]&&         printf "Linking .tmux.conf..."                  && ln -sf $HOME/.settings/tmux/.tmux.conf $HOME/.tmux.conf                              && echo "Done."
-[[ ! -e "$HOME/.tigrc" ]]&&             printf "Linking .tigrc..."                      && ln -sf $HOME/.settings/.tigrc $HOME/.tigrc                                           && echo "Done."
-[[ ! -e "$HOME/.zshlocal.before" ]]&&   printf "Creating .zshlocal.before..."           && echo "#External zsh local settings loaded before initialization" > "$HOME/.zshlocal" && echo "Done."
-[[ ! -e "$HOME/.zshlocal" ]]&&          printf "Creating .zshlocal..."                  && echo "#External zsh local settings" > "$HOME/.zshlocal"                              && echo "Done."
-[[ ! -e "$HOME/.bin" ]]&&               printf "Creating .bin..."                       && mkdir "$HOME/.bin"                                                                   && echo "Done."
+[[ ! -e "$HOME/.settings" ]]&&          printf "Cloning .settings..."                   && git clone https://github.com/yu-ichiro/.settings.git                                         && echo "Done."
+[[ ! -e "$HOME/.zshenv" ]]&&            printf "Linking .zshenv..."                     && ln -sf $HOME/.settings/zsh/.zshenv $HOME/.zshenv                                             && echo "Done."
+[[ ! -e "$HOME/.vimrc" ]]&&             printf "Linking .vimrc..."                      && ln -sf $HOME/.settings/vim/.vimrc $HOME/.vimrc                                               && echo "Done."
+[[ ! -e "$HOME/.tmux.conf" ]]&&         printf "Linking .tmux.conf..."                  && ln -sf $HOME/.settings/tmux/.tmux.conf $HOME/.tmux.conf                                      && echo "Done."
+[[ ! -e "$HOME/.tigrc" ]]&&             printf "Linking .tigrc..."                      && ln -sf $HOME/.settings/.tigrc $HOME/.tigrc                                                   && echo "Done."
+[[ ! -e "$HOME/.zshlocal.before" ]]&&   printf "Creating .zshlocal.before..."           && echo "#External zsh local settings loaded before initialization" > "$HOME/.zshlocal.before"  && echo "Done."
+[[ ! -e "$HOME/.zshlocal" ]]&&          printf "Creating .zshlocal..."                  && echo "#External zsh local settings" > "$HOME/.zshlocal"                                      && echo "Done."
+[[ ! -e "$HOME/.bin" ]]&&               printf "Creating .bin..."                       && mkdir "$HOME/.bin"                                                                           && echo "Done."
 
 NOSTACK=1 cd $HOME/.settings;       printf   "Initializing & Updating Submodules..."
     git submodule update --recursive --init

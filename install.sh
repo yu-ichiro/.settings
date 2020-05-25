@@ -24,10 +24,10 @@ which brew > /dev/null;[[ "$?" = "1" ]] && {
     ${MAC} && {
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     } || {
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
         test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
         test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-        echo "eval \$($(brew --prefix)/bin/brew shellenv)" >> ~/.zshlocal
+        echo "eval \$($(brew --prefix)/bin/brew shellenv)" >> ~/.zshlocal.before
     }
 }
 which brew > /dev/null;[[ "$?" = "0" ]]&& {

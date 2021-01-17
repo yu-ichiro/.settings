@@ -1,6 +1,5 @@
 tap "homebrew/bundle"
 if OS.mac?
-    tap "adoptopenjdk/openjdk"
     tap "delphinus/sfmono-square"
     tap "homebrew/cask"
     tap "homebrew/core"
@@ -62,17 +61,23 @@ if OS.mac?
     cask "google-japanese-ime"
     cask "grandperspective"
     cask "gyazo"
+    cask "obs"
+    cask "vlc"
     cask "iterm2"
     cask "jetbrains-toolbox"
     cask "keycastr"
     cask "ngrok"
+    cask "notion"
+    cask "nifty"
     cask "paw"
     cask "qlmarkdown"
     cask "homebrew/cask-versions/sequel-pro-nightly"
     cask "skype"
     cask "spotify"
+    cask "soundflower"
     cask "thedesk"
     cask "typora"
+    cask "zoom"
     mas "1Password 7", id: 1333542190
     mas "Evernote", id: 406056744
     mas "GarageBand", id: 682658836

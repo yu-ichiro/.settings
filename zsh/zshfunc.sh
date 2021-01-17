@@ -172,9 +172,10 @@ function pwdarray () {
 function ch_color () {
     local front back
     [[ "$1" = "-e" ]]&&esc_flag=$1&&shift
-    [[ "$1" != "" && "$1" != "clear" ]]&&front="38;5;$1;"
-    [[ "$2" != "" && "$2" != "clear" ]]&&back="48;5;$2;"
-    [[ "$esc_flag" != "-e" ]]&&echo -n "\e[${front}${back}m"||echo -n "%{\e[${front}${back}m%}"
+    [[ "$1" != "" && "$1" != "clear" ]]&&front="38;5;$1"
+    [[ "$2" != "" && "$2" != "clear" ]]&&back="48;5;$2"
+    [[ "$front" != "" && "$back" != "" ]]&&sep=";"
+    [[ "$esc_flag" != "-e" ]]&&echo -n "\e[${front}${sep}${back}m"||echo -n "%{\e[${front}${sep}${back}m%}"
 }
 
 function powline () {

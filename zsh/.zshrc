@@ -51,3 +51,5 @@ RPROMPT=$'$(eval powlinel -e $(gitstat) %D:13 %T:13)'
 SPROMPT='Did you mean "%r"?(You typed "%R")[(Y)es (N)o (A)bort (E)dit]'
 
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+
+export PATH="$HOME/.poetry/bin:$PATH"
